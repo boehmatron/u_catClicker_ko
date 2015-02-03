@@ -1,20 +1,25 @@
 var ViewModel = function(){
 
-	this.currentCat = ko.observable( new Cat() );
+	this.currentCat = ko.observable( new Cat({
+		clickCount : 0,
+	 	name: "tabby",
+	 	imgSrc: "https://d13yacurqjgara.cloudfront.net/users/285475/screenshots/1910598/bad_snap.gif",
+	 	imgAttribution: "Bad Snap",
+	 	nicknames: ["Lilly", "Lucy", "Nora"] 
+	}) );
 	
 	this.incrementCounter = function(){
-		this.currentCat().clickCount(this.currentCat().clickCount() + 1);
+		this.clickCount(this.clickCount() + 1);
 	}
 
 }
 
-var Cat = function() {
-	this.clickCount = ko.observable(0);
-	this.title = ko.observable("newborn");
-	this.levelsArray = ko.observableArray();
-	this.name = ko.observable('Tabby');
-	this.imgSrc = ko.observable('https://d13yacurqjgara.cloudfront.net/users/285475/screenshots/1910598/bad_snap.gif');
-	this.imgAttribution = ko.observable('Bad Snap');
+var Cat = function(data) {
+	this.clickCount = ko.observable(data.clickCount);
+	this.name = ko.observable(data.name);
+	this.imgSrc = ko.observable(data.imgSrc);
+	this.imgAttribution = ko.observable(data.imgAttribution);
+	this.nicknames = ko.observableArray(data.nicknames);
 
 	this.title = ko.computed(function(){
 		var title;
@@ -32,11 +37,6 @@ var Cat = function() {
 		}
 	}, this);
 
-	this.nicknames = ko.observableArray([
-			{name: "Lilly"},
-			{name: "Lucy"},
-			{name: "Nora"}
-		]);
 }
 
 ko.applyBindings(new ViewModel());
